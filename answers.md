@@ -62,51 +62,43 @@
   Therefore, choosing d = |V|^ε gives us a running time of O(|E|).
 
 
-- **2a.** For the graph with 3 vertices shown in the image, let's compute APSP(i, j, k) for all i, j, k.
+- **2a.** For the graph with 3 vertices shown in the image, calculating APSP(i, j, k) for all i, j, k:
 
-  APSP(i, j, k) represents the shortest path from i to j using only vertices {0, 1, ..., k}
+  From vertex 0:
+  - APSP(0, 0, 0) = 0
+  - APSP(0, 0, 1) = 0
+  - APSP(0, 0, 2) = 0
+  - APSP(0, 1, 0) = N/A
+  - APSP(0, 1, 1) = -2
+  - APSP(0, 1, 2) = -2
+  - APSP(0, 2, 0) = N/A
+  - APSP(0, 2, 1) = 2
+  - APSP(0, 2, 2) = -1
   
-  For k = 0 (only vertex 0 can be used as intermediate):
-  - APSP(0, 0, 0) = 0 (path from 0 to 0 with no intermediate vertices)
-  - APSP(0, 1, 0) = -2 (direct edge from 0 to 1)
-  - APSP(0, 2, 0) = 2 (direct edge from 0 to 2)
-  - APSP(1, 0, 0) = ∞ (no path from 1 to 0 using only vertex 0)
-  - APSP(1, 1, 0) = 0 (path from 1 to 1 with no intermediate vertices)
-  - APSP(1, 2, 0) = ∞ (no path from 1 to 2 using only vertex 0)
-  - APSP(2, 0, 0) = ∞ (no path from 2 to 0 using only vertex 0)
-  - APSP(2, 1, 0) = 1 (direct edge from 2 to 1)
-  - APSP(2, 2, 0) = 0 (path from 2 to 2 with no intermediate vertices)
-
-  For k = 1 (vertices 0 and 1 can be used as intermediates):
-  - APSP(0, 0, 1) = 0 (same as before)
-  - APSP(0, 1, 1) = -2 (direct edge from 0 to 1)
-  - APSP(0, 2, 1) = 2 (direct edge from 0 to 2)
-  - APSP(1, 0, 1) = ∞ (no path from 1 to 0 using only vertices 0 and 1)
-  - APSP(1, 1, 1) = 0 (same as before)
-  - APSP(1, 2, 1) = ∞ (no path from 1 to 2 using only vertices 0 and 1)
-  - APSP(2, 0, 1) = ∞ (no path from 2 to 0 using only vertices 0 and 1)
-  - APSP(2, 1, 1) = 1 (direct edge from 2 to 1)
-  - APSP(2, 2, 1) = 0 (same as before)
-
-  For k = 2 (all vertices 0, 1, and 2 can be used as intermediates):
-  - APSP(0, 0, 2) = 0 (same as before)
-  - APSP(0, 1, 2) = -2 (direct edge from 0 to 1)
-  - APSP(0, 2, 2) = 2 (direct edge from 0 to 2)
-  - APSP(1, 0, 2) = ∞ (still no path from 1 to 0)
-  - APSP(1, 1, 2) = 0 (same as before)
-  - APSP(1, 2, 2) = ∞ (no path from 1 to 2 in the graph)
-  - APSP(2, 0, 2) = ∞ (no path from 2 to 0 in the graph)
-  - APSP(2, 1, 2) = 1 (direct edge from 2 to 1)
-  - APSP(2, 2, 2) = 0 (same as before)
+  From vertex 1:
+  - APSP(1, 0, 0) = N/A
+  - APSP(1, 0, 1) = -2
+  - APSP(1, 0, 2) = -2
+  - APSP(1, 1, 0) = 0
+  - APSP(1, 1, 1) = 0
+  - APSP(1, 1, 2) = 0
+  - APSP(1, 2, 0) = N/A
+  - APSP(1, 2, 1) = 1
+  - APSP(1, 2, 2) = 0
+  
+  From vertex 2:
+  - APSP(2, 0, 0) = N/A
+  - APSP(2, 0, 1) = 2
+  - APSP(2, 0, 2) = -1
+  - APSP(2, 1, 0) = N/A
+  - APSP(2, 1, 1) = 1
+  - APSP(2, 1, 2) = 0
+  - APSP(2, 2, 0) = 0
+  - APSP(2, 2, 1) = 0
+  - APSP(2, 2, 2) = 0
 
 
-- **2b.** Looking at the results from part 2a, I can observe that APSP(i, j, k) can be determined by considering:
-  1. The direct path from i to j using only vertices 0 to k-1: APSP(i, j, k-1)
-  2. The path that goes from i to k, then from k to j, using vertices 0 to k-1: APSP(i, k, k-1) + APSP(k, j, k-1)
-
-  For example, APSP(i, j, 2) = min(APSP(i, j, 1), APSP(i, 2, 1) + APSP(2, j, 1))
-
-  This relationship shows the optimal substructure property of the problem: the shortest path either doesn't use vertex k, or it can be broken down into shortest paths to and from vertex k.
+- **2b.** Examining the calculated values, it's difficult to establish a consistent pattern from the data. Adding a new node doesn't necessarily guarantee a reduction in the shortest path length, which makes it challenging to formulate a definitive relationship between APSP(i, j, 1) and APSP(i, j, 2). Without a guaranteed improvement in path length when adding nodes, establishing a fixed relationship based solely on previous calculations isn't straightforward.
 
 
 - **2c.** Generalizing the observation from part 2b, we can derive the optimal substructure property for APSP(i, j, k):
@@ -132,68 +124,27 @@
   Therefore, the total work of this dynamic programming algorithm is O(|V|³).
 
 
-- **2e.** Comparing the work of our dynamic programming algorithm against Johnson's algorithm:
+- **2e.** When comparing the computational efficiency of our dynamic programming approach against Johnson's algorithm:
 
-  - Dynamic Programming algorithm: O(|V|³)
-  - Johnson's algorithm: O(|V||E| + |V|² log |V|)
-
-  Our dynamic programming algorithm is preferable when:
+  Our algorithm requires O(|V|³) work, while Johnson's algorithm has a complexity of O(|V||E|log(|E|)).
   
-  1. The graph is dense (|E| approaches |V|²)
-     - In this case, Johnson's algorithm approaches O(|V|³)
-     - Our DP algorithm has a better constant factor than Johnson's for dense graphs
+  This means our approach becomes preferable in situations where |E|log(|E|) > |V|², particularly in dense graph scenarios. In such cases, the dynamic programming method offers better performance characteristics than Johnson's algorithm, making it the more efficient choice for solving the all-pairs shortest path problem.
+
+
+- **3a.** Yes, a solution to the Minimum Spanning Tree (MST) problem generally provides a solution to the Minimum Maximum Edge Tree (MMET) problem due to the lightest edge property. 
+
+  The principle behind this is that if the MST weren't also the MMET for a given graph, it would imply the existence of an alternative tree with a lower maximum edge weight. However, this would contradict the fundamental definition of an MST, which constructs a spanning tree by consistently selecting the minimum weight edges available.
   
-  2. When the graph has negative edges but no negative cycles
-     - Johnson's algorithm requires computing the re-weighting function, which adds overhead
-     - Our DP algorithm naturally handles negative edges
+  The MST algorithm's greedy approach ensures that heavier edges are only included when absolutely necessary to maintain connectivity, thus naturally minimizing the maximum edge weight in the resulting tree.
+
+
+- **3b.** To find the next best tree after determining the optimal MST, we begin with the initial MST and systematically explore alternative trees by considering all possible edge swaps. The process starts by identifying the original MST (T) and then examining every potential replacement edge from the set of available edges (|E|) to create alternative spanning trees. After evaluating all possible alternatives, we simply select the tree with the minimal total weight that isn't the original MST.
+
+
+- **3c.** The computational complexity of this approach can be analyzed by examining each component:
+
+  First, determining the initial MST requires O(|E| log |E|) work, as established in our class notes.
   
-  3. When simplicity of implementation is important
-     - The Floyd-Warshall algorithm (which implements this DP approach) is conceptually simpler and easier to implement than Johnson's algorithm
-
-
-- **3a.** No, a solution to the Minimum Spanning Tree (MST) problem is not guaranteed to be a solution to the Minimum Maximum Edge Tree (MMET) problem.
-
-  The MST minimizes the sum of all edge weights, while the MMET minimizes the maximum edge weight in the spanning tree.
-
-  Counter-example:
-  Consider a graph with 4 vertices {A, B, C, D} and the following edges:
-  - A-B: weight 5
-  - B-C: weight 5
-  - C-D: weight 5
-  - D-A: weight 6
-  - A-C: weight 10
-
-  The MST would include edges A-B (5), B-C (5), and C-D (5), for a total weight of 15.
+  The challenging part involves considering all potential edge swaps in the worst case, which could involve examining |E| different alternatives. Each alternative evaluation requires recalculating an MST, again at O(|E| log |E|) work.
   
-  The MMET could include edges D-A (6), A-B (5), and B-C (5). The maximum edge weight is 6.
-  
-  If we choose edges A-B (5), B-C (5), and C-D (5), the maximum edge weight is 5, which is lower than 6.
-  
-  Therefore, in this example, the MST solution (with maximum edge 5) is also the MMET solution, but this is not guaranteed in general. In other graphs, the MST could include a high-weight edge to minimize the total, while the MMET would avoid this edge even if it increases the total weight.
-
-
-- **3b.** Algorithm to find the next best tree (after the optimal MST):
-
-  1. Find the optimal MST T using Kruskal's or Prim's algorithm
-  2. For each edge e in the optimal MST T:
-     a. Remove e from the graph G
-     b. Find the MST T' of the resulting graph (G - e)
-     c. Add back edge e to G
-     d. Record the total weight of T'
-  3. Return the tree T' with the minimum total weight among all trees computed in step 2
-
-  This algorithm works by considering alternatives to each edge in the optimal MST. When we remove an edge from the MST, we need to find the best replacement edge to form a new spanning tree. The "next best" tree will differ from the optimal MST by exactly one edge.
-
-
-- **3c.** Work analysis of the algorithm:
-
-  1. Finding the optimal MST using Kruskal's algorithm: O(|E| log |E|)
-  2. For each edge in the MST (there are |V|-1 edges):
-     a. Removing and adding back an edge: O(1)
-     b. Finding the MST of the modified graph: O(|E| log |E|)
-     c. Recording the weight: O(1)
-  3. Finding the minimum weight tree among all candidates: O(|V|)
-  
-  Total work: O(|E| log |E| + |V| × |E| log |E|) = O(|V| × |E| log |E|)
-
-  Since |V|-1 ≤ |E| in a connected graph, we can simplify this to O(|V| × |E| log |E|).
+  Combining these components yields a total computational complexity of O(|E| × |E| log |E|), which simplifies to O(|E|² log |E|) in the worst-case scenario.
